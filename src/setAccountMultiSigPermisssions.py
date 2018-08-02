@@ -34,31 +34,6 @@ class BlockChain():
     def __init__(self):
         self.producer = "https://api.eosnewyork.io:443"
         
-class Account():
-    def __init__(self):
-        self.name = ""
-        self.creator = ""
-        self.receiver = ""
-        self.creatorOwnerKey = ""
-        self.creatorActiveKey = ""
-#         self.eosioPublicKey = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"
-#         self.eosioPrivateKey = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
-        self.cpu = ""
-        self.bandwidth = ""
-        self.ram = "" 
-
-class Wallet():
-    def __init__(self):
-        self.name = ""
-        self.key = ""
-        self.ownerPrivateKey = ''
-        self.ownerPublicKey = ''
-        self.activePrivateKey = ''
-        self.activePublicKey = ''
-         
-    def erasePrivateKeys(self):
-        self.ownerPrivateKey = ""
-        self.activePrivateKey = ""
 
 def createMultiSigAccountObject(threshold, weight, actors, permission):
         multiSigObjects = []
@@ -78,8 +53,6 @@ def createPermissionObject(actor, permission):
         return permissionobject
         
 if __name__ == '__main__':
-    account = Account()
-    wallet = Wallet()
     blockchain = BlockChain()
     actors = []
     for i in range(3):
@@ -88,45 +61,12 @@ if __name__ == '__main__':
     threshold = input("Threshold: ")    
     weight = input("Weight: ")
     multiSigPermissionObject = json.dumps(createMultiSigAccountObject(threshold, weight, actors,'active'))        
-    subprocess.check_output(['/usr/local/eosio/bin/cleos', 'set', 'account', 'permission', multiSigAccountName, 'active', multiSigPermissionObject, 'owner', '-p', multiSigAccountName +'@owner']) 
+    subprocess.check_output(['/usr/local/eosio/bin/cleos', '--url', blockchain.producer, 'set', 'account', 'permission', multiSigAccountName, 'active', multiSigPermissionObject, 'owner', '-p', multiSigAccountName +'@owner']) 
     multiSigPermissionObject = json.dumps(createMultiSigAccountObject(threshold, weight, actors,'owner'))
-    endName = account.name + '@owner'
-    #out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'set', 'account', 'permission', account.name, 'owner', multiSigPermissionObject, '-p', 'mymultisig11@owner'])
-    out = subprocess.check_output(['/usr/local/eosio/bin/cleos', 'set', 'account', 'permission',  multiSigAccountName, 'owner', multiSigPermissionObject, '-p',  multiSigAccountName  +'@owner'])
+    out = subprocess.check_output(['/usr/local/eosio/bin/cleos','--url', blockchain.producer, 'set', 'account', 'permission',  multiSigAccountName, 'owner', multiSigPermissionObject, '-p',  multiSigAccountName  +'@owner'])
     print(out)             
 
-#def createTestAccounts(self):
-#    self.wallet.name = 'partner11111'
-#     self.createWallet()
-#     self.setOwnerKey()
-#     self.setActiveKey()
-#     self.importKeys()
-#     self.account.name = 'partner11111'
-#     self.createAccount()
-#     self.wallet.name = 'partner22222'
-#     self.createWallet()
-#     self.setOwnerKey()
-#     self.setActiveKey()
-#     self.importKeys()
-#     self.account.name = 'partner22222'
-#     self.account.owner = 'partner22222'
-#     self.createAccount()
-#     self.wallet.name = 'partner33333'
-#     self.createWallet()
-#     self.setOwnerKey()
-#     self.setActiveKey()
-#     self.importKeys()
-#     self.account.name = 'partner33333'
-#     self.account.owner = 'partner33333'
-#     self.createAccount()
-#     self.wallet.name = 'mymultisig11'
-#     self.createWallet()
-#     self.setOwnerKey()
-#     self.setActiveKey()
-#     self.importKeys()
-#     self.account.name = 'mymultisig11'
-#     out = self.createAccount()
-#     self.getInfoLabel.setText(out)
+
 
         
     
