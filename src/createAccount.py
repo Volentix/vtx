@@ -38,8 +38,6 @@ class Account():
         self.receiver = ""
         self.creatorOwnerKey = ""
         self.creatorActiveKey = ""
-#         self.eosioPublicKey = "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"
-#         self.eosioPrivateKey = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"
         self.cpu = ""
         self.bandwidth = ""
         self.ram = "" 
@@ -105,6 +103,7 @@ if __name__ == '__main__':
     blockchain = BlockChain()
     text = input("Name of the account to create ex.11volentix11:")
     wallet.name = text
+    print('****************************Please disconnect from internet*************************')
     out = createWallet(wallet.name)
     print('****************************Private Key*************************')
     print(out)
@@ -115,6 +114,7 @@ if __name__ == '__main__':
     setOwnerKeys(wallet)
     setActiveKeys(wallet)
     importKeys(wallet)
+    print('****************************Please reconnect to internet*************************')
     account.name = wallet.name 
     account.creator = input("Name of the creating account ex.volentixtst2:")
     account.bandwidth = input("Amount of bandwidth ex. 0.0001 EOS:")
