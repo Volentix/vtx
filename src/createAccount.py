@@ -27,6 +27,7 @@
 import subprocess
 import os
 
+
 class BlockChain():
     def __init__(self):
         self.producer = "https://api.eosnewyork.io:443"
@@ -97,13 +98,17 @@ def createAccount(producer, creator, name, permission, bandwidth, cpu, ram, owne
     out = subprocess.check_output(['/usr/local/eosio/bin/cleos', '-u', producer, 'system', 'newaccount', creator, name, ownerPublicKey, activePublicKey, '--stake-net', bandwidth, '--stake-cpu', cpu, '--buy-ram', ram, '--transfer', '-p', permission])
     return out
 
+def guard(*args, **kwargs):
+    raise Exception("I told you not to use the Internet!")
+
 if __name__ == '__main__':
     account = Account()
     wallet = Wallet()
     blockchain = BlockChain()
     text = input("Name of the account to create ex.11volentix11:")
     wallet.name = text
-    print('****************************Please disconnect from internet*************************')
+    print('****************************Disconnecting from internet*************************')
+    subprocess.check_output(['/etc/init.d/networking', 'stop'])
     out = createWallet(wallet.name)
     print('****************************Private Key*************************')
     print(out)
@@ -114,12 +119,13 @@ if __name__ == '__main__':
     setOwnerKeys(wallet)
     setActiveKeys(wallet)
     importKeys(wallet)
-    print('****************************Please reconnect to internet*************************')
+    print('****************************Reconnecting to internet*************************')
+    subprocess.check_output(['/etc/init.d/networking', 'start'])
     account.name = wallet.name 
     account.creator = input("Name of the creating account ex.volentixtst2:")
     account.bandwidth = input("Amount of bandwidth ex. 0.0001 EOS:")
     account.cpu = input("Amount of cpu  ex. 0.0001 EOS:")    
     account.ram = input("Amount of ram  ex. 0.0001 EOS:")
     permission = account.creator + '@active'
-#     print(blockchain.producer, account.name, account.bandwidth, account.cpu, account.ram, wallet.ownerPublicKey, wallet.activePublicKey)
     createAccount(blockchain.producer, account.creator, account.name, permission, account.bandwidth, account.cpu, account.ram, wallet.ownerPublicKey, wallet.activePublicKey)
+    print('created account')
