@@ -98,8 +98,6 @@ def createAccount(producer, creator, name, permission, bandwidth, cpu, ram, owne
     out = subprocess.check_output(['/usr/local/eosio/bin/cleos', '-u', producer, 'system', 'newaccount', creator, name, ownerPublicKey, activePublicKey, '--stake-net', bandwidth, '--stake-cpu', cpu, '--buy-ram', ram, '--transfer', '-p', permission])
     return out
 
-def guard(*args, **kwargs):
-    raise Exception("I told you not to use the Internet!")
 
 if __name__ == '__main__':
     account = Account()
